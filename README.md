@@ -1,70 +1,87 @@
 # 📘 SQL Basic Notes (Beginner Friendly)
 
-এই নোটগুলোতে SQL এর গুরুত্বপূর্ণ কমান্ডগুলো সহজ ভাষায় উদাহরণসহ দেখানো হয়েছে।
+<p align="center">
+  Easy • Line by Line Explanation • Bangla
+</p>
 
 ---
 
-## 🔹 SELECT (ডেটা দেখা)
+## 🚀 About
 
-ডেটাবেস থেকে ডেটা বের করতে ব্যবহার হয়।
+এই নোটগুলোতে SQL এর গুরুত্বপূর্ণ কমান্ডগুলো সহজ ভাষায় ও উদাহরণসহ ব্যাখ্যা করা হয়েছে। নতুনদের জন্য খুবই উপযোগী।
+
+---
+
+## 📚 Topics
+
+- SELECT
+- INSERT INTO
+- UPDATE
+- DELETE
+- JOIN (INNER, LEFT, RIGHT)
+- GROUP BY
+- Aggregate Functions
+- Subquery
+- CONCAT, NOW()
+- Alias
+
+---
+
+## 🔹 SELECT
 
 ```sql
 SELECT * FROM test LIMIT 0, 5;
 ```
 
-👉 প্রথম ৫টি row দেখাবে।
+- `SELECT *` → সব column দেখাবে  
+- `FROM test` → test টেবিল থেকে ডেটা আনবে  
+- `LIMIT 0,5` → প্রথম ৫টি row দেখাবে  
 
 ---
 
-## 🔹 INSERT INTO (ডেটা যোগ করা)
+## 🔹 INSERT INTO
 
 ```sql
 INSERT INTO table_name (column1, column2) VALUES (value1, value2);
 ```
 
+- কোন টেবিলে এবং কোন column এ ডেটা যাবে সেটি নির্ধারণ করে  
+
 ---
 
-## 🔹 UPDATE (ডেটা আপডেট)
+## 🔹 UPDATE
 
 ```sql
 UPDATE students SET number = number + 2;
 ```
 
+- সব row এর number এর সাথে ২ যোগ হবে  
+
 ---
 
-## 🔹 DELETE (ডেটা মুছে ফেলা)
+## 🔹 DELETE
 
 ```sql
 DELETE FROM students WHERE id = 5;
 ```
 
+- id = 5 row মুছে ফেলবে  
+
 ```sql
 DELETE FROM students ORDER BY id DESC LIMIT 3;
 ```
 
----
-
-## 🔹 DROP DATABASE
-
-```sql
-DROP DATABASE database_name;
-```
+- শেষের ৩টি row মুছে ফেলবে  
 
 ---
 
-## 🔹 CREATE TABLE
-
-```sql
-CREATE TABLE table_name (...);
-```
-
----
-
-## 🔹 WHERE ... IN
+## 🔹 WHERE IN
 
 ```sql
 SELECT * FROM users WHERE age IN (33, 25, 28);
 ```
+
+- একাধিক মান একসাথে খোঁজা যায়  
 
 ---
 
@@ -77,6 +94,8 @@ INNER JOIN profiles
 ON users.user_id = profiles.user_id;
 ```
 
+- দুই টেবিলে মিল থাকা ডেটা দেখাবে  
+
 ---
 
 ## 🔹 LEFT JOIN
@@ -87,6 +106,8 @@ FROM users
 LEFT JOIN profiles 
 ON users.user_id = profiles.user_id;
 ```
+
+- users টেবিলের সব ডেটা দেখাবে  
 
 ---
 
@@ -99,6 +120,8 @@ RIGHT JOIN profiles
 ON users.user_id = profiles.user_id;
 ```
 
+- profiles টেবিলের সব ডেটা দেখাবে  
+
 ---
 
 ## 🔹 GROUP BY
@@ -106,6 +129,8 @@ ON users.user_id = profiles.user_id;
 ```sql
 SELECT course_name FROM applicant GROUP BY course_name;
 ```
+
+- একই ডেটা group করবে  
 
 ---
 
@@ -117,6 +142,8 @@ FROM users AS u
 LEFT JOIN profiles AS p 
 ON u.user_id = p.user_id;
 ```
+
+- users = u, profiles = p (short name)  
 
 ---
 
@@ -130,6 +157,12 @@ SELECT COUNT(age) FROM applicant;
 SELECT SUM(age) FROM applicant;
 ```
 
+- MAX → সবচেয়ে বড় মান  
+- MIN → সবচেয়ে ছোট মান  
+- AVG → গড়  
+- COUNT → মোট সংখ্যা  
+- SUM → যোগফল  
+
 ---
 
 ## 🔹 NOW()
@@ -138,6 +171,8 @@ SELECT SUM(age) FROM applicant;
 SELECT NOW();
 ```
 
+- বর্তমান date ও time দেখাবে  
+
 ---
 
 ## 🔹 CONCAT
@@ -145,6 +180,8 @@ SELECT NOW();
 ```sql
 SELECT email, CONCAT(first_name, '--->', age) FROM applicant;
 ```
+
+- দুইটি ডেটা একসাথে দেখাবে  
 
 ---
 
@@ -158,6 +195,8 @@ WHERE number < (
 );
 ```
 
+- ২য় সর্বোচ্চ মান বের করে  
+
 ---
 
 ## 🔹 Subquery + IN
@@ -170,10 +209,15 @@ WHERE id IN (
 );
 ```
 
+- শর্ত অনুযায়ী ডেটা দেখায়  
+
 ---
 
 ## ✅ Tips
 
-- WHERE দিয়ে filter করা যায়  
+- WHERE দিয়ে data filter করা যায়  
 - JOIN দিয়ে multiple table ব্যবহার করা যায়  
 - Alias ব্যবহার করলে query ছোট হয়  
+- table_name.column_name লেখা ভালো অভ্যাস  
+
+
