@@ -1,234 +1,170 @@
-# 📘 SQL Basic Notes (Beginner Friendly)
+SELECT-ডেটাবেস থেকে ডেটা তুলে আনে
 
-<p align="center">
-  Easy • Line by Line Explanation • Bangla
-</p>
+UPDATE-ডেটা আপডেট(হালনাগাদ)করে
 
----
+DELETE-ডেটাবেস থেকে তথ্য মুছে দেয়
 
-## 🚀 About
+INSERT INTO-ডেটাবেসে তথ্য ঢুকায়
+DROP DATABASE  database_name(যে ডেটাবেসটি মুছতে চান database_name এর জায়গায় সেই নামটি দিয়ে দিন।)
 
-এই নোটগুলোতে SQL এর গুরুত্বপূর্ণ কমান্ডগুলো সহজ ভাষায় ও উদাহরণসহ ব্যাখ্যা করা হয়েছে। নতুনদের জন্য খুবই উপযোগী।
+CREATE TABLE table_name (যে নামে টেবিল তৈরী করতে চান table_name এর জায়গায় সেই নামটি দিয়ে দিন।)
 
----
+SELECT স্টেটমেন্ট দিয়ে টেবিলের নির্দিষ্ট কয়েকটি সারি তুলে এনে দেখতে পারেন অর্থ্যাৎ ঠিক করে দিতে পারেন কতটুকু আপনি দেখতে চান।যেমন ধরুন "test" টেবিলটিতে ২০ টি সারি (row) আছে এখন আপনি প্রথম ৫ টি সারি দেখতে চান তাহলে
 
-## 📚 Topics
-
-- SELECT
-- INSERT INTO
-- UPDATE
-- DELETE
-- JOIN (INNER, LEFT, RIGHT)
-- GROUP BY
-- Aggregate Functions
-- Subquery
-- CONCAT, NOW()
-- Alias
-
----
-
-## 🔹 SELECT
-
-```sql
 SELECT * FROM test LIMIT 0, 5;
-```
 
-- `SELECT *` → সব column দেখাবে  
-- `FROM test` → test টেবিল থেকে ডেটা আনবে  
-- `LIMIT 0,5` → প্রথম ৫টি row দেখাবে  
+ধরুন "students" টেবিলের সব row এর "number" কলাম আপডেট করব।
 
----
-
-## 🔹 INSERT INTO
-
-```sql
-INSERT INTO table_name (column1, column2) VALUES (value1, value2);
-```
-
-- কোন টেবিলে এবং কোন column এ ডেটা যাবে সেটি নির্ধারণ করে  
-
----
-
-## 🔹 UPDATE
-
-```sql
+আপডেট (UPDATE)
 UPDATE students SET number = number + 2;
-```
+উ্পরের কোয়েরিটি "students" টেবিলের সব row এর number কলামে যে মান আছে সেটার সাথে ২ যোগ করবে।
 
-- সব row এর number এর সাথে ২ যোগ হবে  
+ডিলিট (DELETE)
 
----
+যেকোন row মুছে দিতে সেই row এর একটি কলাম (সাধারনত id কলাম দিয়ে এসব করা হয়) WHERE ক্লজে দিয়ে DELETE করা যায়। যেমন আমি যদি চাই "students" টেবিলটির ৫ নং আইডি সম্বলিত row টি মুছে দেব। তাহলে
 
-## 🔹 DELETE
-
-```sql
 DELETE FROM students WHERE id = 5;
-```
+উ্পরের কোয়েরিটি "students" টেবিলের ঐ row টি মুছে দিবে যার id হবে 5
 
-- id = 5 row মুছে ফেলবে  
+যদি চাই শেষ ৩টি row মুছে দেব তাহলে নিচের মত লিখতে পারেন
+DELETE FROM students ORDER BY id DESC LIMIT 3 ;
 
-```sql
-DELETE FROM students ORDER BY id DESC LIMIT 3;
-```
+এর আগের টিউটোলিয়ালে যে "users" টেবিল নিয়ে কাজ করা হল সেই টেবিলে এবার WHERE .. IN ক্লজ ব্যবহার করে ডেটা আনবো। ধরুন আমার সেসব ইউজার দরকার যাদের বয়স ৩৩, ২৫, এবং ২৮ তাহলে নিচের মত কোয়েরি লিখে রান করান
 
-- শেষের ৩টি row মুছে ফেলবে  
+SELECT *  FROM users WHERE age IN (33, 25, 28);
 
----
 
-## 🔹 WHERE IN
+SELECT username, age, favorite_color FROM users INNER JOIN profiles ON users.user_id = profiles.user_id;
+এর আউটপুট ৩টি সারি আসবে।কারন "profiles" টেবিলে "user_id" কলামটি দেখুন যেটা এই টেবিলের ফরেন কি, এখানে ১, ২ এবং ৩ নম্বর ইউজারের জন্য একটি করে সারি আছে। যদি এখানে কোন সারিই না থাকত তাহলে কোন আউটপুটই আসত না, একটা সারি থাকলে একটা আউটপুট আসত।
 
-```sql
-SELECT * FROM users WHERE age IN (33, 25, 28);
-```
+আরও একভাবে এই কোয়েরিটি করা যায়
 
-- একাধিক মান একসাথে খোঁজা যায়  
+1.
+SELECT username, age, favorite_color FROM users INNER JOIN profiles USING(user_id)
+USING কিওয়ার্ডটি তখনি ব্যবহার করা যাবে যখন দুটো টেবিলেই "user_id" কলামটির নাম একই হবে।এই "user_id" কলামটি দিয়ে টেবিল দুটি সংযোগ হয়েছে, এটার নাম দিলাম ধরুন ব্রিজ কলাম :)
 
----
+ আগে তৈরী "users" এবং "profiles" টেবিলদুটি দিয়েই কাজ হবে তাই সেই ডেটাবেসে এই কোয়েরি চালালেই কাজ হবে।
 
-## 🔹 INNER JOIN
+LEFT JOIN ক্লজ দিয়ে "users" টেবিলের (এটাকে লেফট টেবিল বলে) সব ডেটা বা সারি (row) চলে আসবে, ধরুন লেফট টেবিলে ১০ টি সারি আছে তাহলে আউটপুট ১০ টি সারিই আসবে, যদি "profiles" টেবিলে (এটাকে রাইট টেবিল বলে) ৫ টি সারি থাকে যারা ঐ ১০টির মধ্যে ৫টির সাথে মিলে (সম্পর্কিত) তবুও ১০টি সারির আউটপুট দেখাবে।যেমন
 
-```sql
-SELECT username, age, favorite_color 
-FROM users 
-INNER JOIN profiles 
-ON users.user_id = profiles.user_id;
-```
 
-- দুই টেবিলে মিল থাকা ডেটা দেখাবে  
+SELECT username, age, favorite_color FROM users LEFT JOIN profiles ON users.user_id = profiles.user_id;
 
----
 
-## 🔹 LEFT JOIN
+RIGHT JOIN ক্লজ দিয়ে "profiles" টেবিলের সব ডেটা/সারিগুলি আসবে এবং "users" টেবিলের শুধু সেই সারি গুলি আসবে যেগুলির জন্য রাইট টেবিলে কোন (রিলেটেড) সারি আছে।যেমন
 
-```sql
-SELECT username, age, favorite_color 
-FROM users 
-LEFT JOIN profiles 
-ON users.user_id = profiles.user_id;
-```
 
-- users টেবিলের সব ডেটা দেখাবে  
+SELECT username, age, favorite_color FROM users RIGHT JOIN profiles ON users.user_id = profiles.user_id;
 
----
+এখান থেকে GROUP BY দিয়ে ডেটা ফিল্টার করে দেখা যাবে।এখানে অল্প কয়েকটি সারি তাই একনজর দেখেই হয়ত ইতোমধ্যে ডেটা grouped করে ফেলেছেন মনে মনে।তবে যখন হাজারো লক্ষ ডেটা হবে তখন এর প্রয়োজনীয়তা প্রবল হবে।
 
-## 🔹 RIGHT JOIN
+SELECT course_name FROM applicant GROUP BY course_name
 
-```sql
-SELECT username, age, favorite_color 
-FROM users 
-RIGHT JOIN profiles 
-ON users.user_id = profiles.user_id;
-```
+কোয়েরির সুবিধার্থে Alias ব্যবহার করা হয়।টেবিল, কলাম দুটোরই এলিয়াস ব্যবহার করা যায়।এলিয়াসকে বলতে পারেন ছোটনাম বা ডাকনামের মত।বিশেষ করে কোয়েরিতে যখন একাধিক কলাম ব্যবহার করে ক্যালকুলেশন করা হয়ে থাকে তখন বেশ ভালই উপকার হয় এলিয়াস ব্যবহার করলে।এছাড়া কোয়েরিও আকারে অনেক ছোট হয়ে যায়।যেমন লেফট জয়েনে ব্যবহৃত কোয়েরি টি যদি এলিয়াস ব্যবহার করি তাহলে নিচের মত হবে
 
-- profiles টেবিলের সব ডেটা দেখাবে  
 
----
+SELECT u.username AS UserName, u.age AS Age, p.favorite_color FavColor FROM users AS u LEFT JOIN profiles AS p ON u.user_id = p.user_id;
 
-## 🔹 GROUP BY
+** কোয়েরিতে এভাবে কলামের নামের সামনে ডট (.) দিয়ে টেবিলের নাম বসিয়ে দেয়া ভাল অভ্যাস, এভাবেই কোয়েরি করা উচিৎ বিশেষ করে যখন সম্পর্কযুক্ত টেবিল থেকে ডেটা কোয়েরি করা হয় তখন দুটো টেবিলেই একই নামের ফিল্ড/কলাম থাকতে পারে তখনতো অবশ্যই এভাবে কলামের নামের আগে ডট দিয়ে টেবিলের নাম দিতে হবে।
 
-```sql
-SELECT course_name FROM applicant GROUP BY course_name;
-```
 
-- একই ডেটা group করবে  
 
----
+ব্যাখ্যা: users টেবিলে এলিয়াস ব্যবহারের জন্য users AS u এভাবে দিয়েছি এতে করে আর কোথাও পুরো টেবিলের নামটি ব্যবহার করতে হয়নি বরং শুধু u দেয়াতেই পুরো users লেখার কাজ হয়ে গেছে এভাবে দেখুন profiles টেবিলেরও কাজ শুধু p দিয়ে হচ্ছে।এই u হচ্ছে এখানে users টেবিলের এলিয়াস আর p হচ্ছে profiles টেবিলের এলিয়াস।
 
-## 🔹 Alias
+MAX()
 
-```sql
-SELECT u.username AS UserName, u.age AS Age, p.favorite_color AS FavColor
-FROM users AS u 
-LEFT JOIN profiles AS p 
-ON u.user_id = p.user_id;
-```
+এই ফাংশনটি দিয়ে সবোর্চ্চ মানটি বের করে আনা যায়, যে সারিগুলি কোয়েরি করে আনলেন তাদের মধ্যে থেকে।এর আগে যে "applicant" টেবিল নিয়ে কাজ করেছি সেটা থেকে যদি সর্বোচ্চ বয়স কার সেটা দেখতে চাই তাহলে
 
-- users = u, profiles = p (short name)  
 
----
-
-## 🔹 Aggregate Functions
-
-```sql
+1.
 SELECT MAX(age) FROM applicant;
+আউটপুট দেখুন একটি সারি আসছে যেখানে সর্বোচ্চ বয়সটি দেখাচ্ছে।
+
+
+
+MIN()
+
+1.
 SELECT MIN(age) FROM applicant;
+আউটপুট দেখুন একটি সারি আসছে যেখানে সর্বনিম্ন বয়সটি দেখাচ্ছে।
+
+
+
+AVG()
+
+ধরুন সবার বয়সের গড় কত সেটা লাগবে  তাহলে
+
+1.
 SELECT AVG(age) FROM applicant;
+
+
+COUNT()
+
+যদি দেখতে চান আপনার কোয়েরি কয়টি সারি রিটার্ন করল তখন
+
+1.
 SELECT COUNT(age) FROM applicant;
+যেকোন কলাম এভাবে গুনে দেখতে পারেন, আউটপুট দেখুন যতগুলি সারি আছে তাদের সমষ্টি একটা সংখ্যা (৭) দেখাচ্ছে।
+
+
+
+SUM()
+
+যদি সবার বয়সের সমষ্টি কত দেখতে চান তাহলে
+
+1.
 SELECT SUM(age) FROM applicant;
-```
 
-- MAX → সবচেয়ে বড় মান  
-- MIN → সবচেয়ে ছোট মান  
-- AVG → গড়  
-- COUNT → মোট সংখ্যা  
-- SUM → যোগফল  
 
----
+NOW()
 
-## 🔹 NOW()
+এটা বর্তমান সময় এবং তারিখ বের করার জন্য ব্যবহার হয়।যেমন
 
-```sql
-SELECT NOW();
-```
+1.
+SELECT first_name, email, NOW() FROM applicant;
+এটা আসলে ব্যবহৃত হয় যখন টেবিলে তারিখ/সময়ের কোন ফিল্ড থাকে আর তারিখ অনুযায়ী ডেটা ফিল্টার করতে হয়।যেমন এর আগের টিউটোরিয়ালে  "users" টেবিল থেকে যদি 2013-07-10 তারিখের পর থেকে বর্তমান সময় পর্যন্ত কতগুলি ডেটা ঢুকানো হয়েছে দেখতে চাই তাহলে
 
-- বর্তমান date ও time দেখাবে  
+1.
+SELECT username,user_mail FROM users WHERE join_date BETWEEN "2013-07-10" AND NOW();
 
----
 
-## 🔹 CONCAT
+CONCAT()
 
-```sql
-SELECT email, CONCAT(first_name, '--->', age) FROM applicant;
-```
+এতক্ষ যত কোয়েরি দেখানো হয়েছে সবগুলিতে কলামভিত্তিক ডেটাগুলি আসছে আপনি চাইলে দুই বা ততোধিক কলামের ডেটা জোড়া দিয়ে একত্রে ডেটা দেখতে পারেন যেমন "applicant" টেবিল থেকে প্রতি ইউজারের first_name এর সাথে বয়স দেখতে চাই
 
-- দুইটি ডেটা একসাথে দেখাবে  
+1.
+SELECT email, CONCAT(first_name, '--->', age ) FROM applicant;
 
----
 
-## 🔹 Subquery
+"--->" এটা দিয়ে আলাদা করা হয়েছে, আপনি যদি এটা না দেন তাও হবে তবে দেখতে/বুঝতে একটু কেমন লাগে আরকি।"--->" এটার জায়গায় যেকোন ক্যারেক্টার দিতে পারেন।
 
-```sql
+
 SELECT MAX(number)
 FROM users
 WHERE number < (
-  SELECT MAX(number) FROM users
-);
-```
+SELECT MAX(number)
+FROM users);
 
-- ২য় সর্বোচ্চ মান বের করে  
+আউটপুট ১টি কলাম তথা ৮৫  যে ইউজারের নাম্বার সেই কলামটি আসবে। MAX() দিয়ে কিভাবে সর্বোচ্চ মান বের করা যায় এটাতো আগের টিউটোরিয়ালেই দেখে এসেছেন।
 
----
+কোয়েরি টির ব্যাখ্যা : এখানে বলা হচ্ছে ঐ সর্বোচ্চ মানটি বের করে আন যেটা সর্বোচ্চ মানের চেয়ে ছোট অর্থ্যাৎ ২য় সর্বোচ্চ মানটি।
 
-## 🔹 Subquery + IN
+** less than (<) চিহ্নের পর প্রথম বন্ধনীর ভিতর যে কোয়েরি টি সেটাই হচ্ছে সাবকোয়েরি।
 
-```sql
+
+সাবকোয়েরি এবং WHERE ... IN
+
+একটা সাবকোয়েরি একাধিক কলাম রিটার্ন করতে পারে। তাই এ সুবিধা ব্যবহার করে আমরা WHERE .. IN দিয়ে কোয়েরি করতে পারি। যেমন আমি যদি চাই তাহলে ৮০ এর নিচে যাদের নাম্বার তাদের সবার তথ্য দেখব তাহলে
+
+1.
 SELECT *
+2.
 FROM users
+3.
 WHERE id IN (
-  SELECT id FROM users WHERE number < 80
-);
-```
-
-- শর্ত অনুযায়ী ডেটা দেখায়  
-
----
-
-## ✅ Tips
-
-- WHERE দিয়ে data filter করা যায়  
-- JOIN দিয়ে multiple table ব্যবহার করা যায়  
-- Alias ব্যবহার করলে query ছোট হয়  
-- table_name.column_name লেখা ভালো অভ্যাস  
-
----
-
-## ⭐ Support
-
-যদি এই নোট তোমার কাজে লাগে, তাহলে repo-তে ⭐ Star দাও 😊
-
----
-
-## 👨‍💻 Author
-
-**Soyon Barman**  
-GitHub: https://github.com/Soyonbarman
+4.
+SELECT id
+5.
+FROM users
+6.
+WHERE number < 80);
