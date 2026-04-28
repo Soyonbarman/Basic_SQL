@@ -1,25 +1,18 @@
-<!-- Banner -->
-<h1 align="center">📘 SQL Basic Notes</h1>
-<p align="center">
-  Beginner Friendly • Easy Explanation • Line by Line Guide
-</p>
+# 📘 SQL Basic Notes (Beginner Friendly)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/SQL-Beginner-blue?style=for-the-badge&logo=database">
-  <img src="https://img.shields.io/badge/Level-Easy-green?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Language-Bangla-red?style=for-the-badge">
+  Easy • Line by Line Explanation • Bangla
 </p>
 
 ---
 
-## 🚀 About This Project
+## 🚀 About
 
-এই নোটগুলোতে SQL এর সব গুরুত্বপূর্ণ কমান্ডগুলো **সহজ ভাষায় + লাইন বাই লাইন ব্যাখ্যা** দিয়ে বুঝানো হয়েছে।  
-নতুন যারা SQL শিখছে তাদের জন্য একদম পারফেক্ট।
+এই নোটগুলোতে SQL এর গুরুত্বপূর্ণ কমান্ডগুলো সহজ ভাষায় ও উদাহরণসহ ব্যাখ্যা করা হয়েছে। নতুনদের জন্য খুবই উপযোগী।
 
 ---
 
-## 📚 Topics Covered
+## 📚 Topics
 
 - SELECT
 - INSERT INTO
@@ -34,150 +27,208 @@
 
 ---
 
-# 🔹 SELECT (ডেটা দেখা)
+## 🔹 SELECT
 
 ```sql
 SELECT * FROM test LIMIT 0, 5;
+```
 
-
----
-
-## 🚀 About This Project
-
-এই নোটগুলোতে SQL এর সব গুরুত্বপূর্ণ কমান্ডগুলো **সহজ ভাষায় + লাইন বাই লাইন ব্যাখ্যা** দিয়ে বুঝানো হয়েছে।  
-নতুন যারা SQL শিখছে তাদের জন্য একদম পারফেক্ট।
+- `SELECT *` → সব column দেখাবে  
+- `FROM test` → test টেবিল থেকে ডেটা আনবে  
+- `LIMIT 0,5` → প্রথম ৫টি row দেখাবে  
 
 ---
 
-## 📚 Topics Covered
-
-- SELECT
-- INSERT INTO
-- UPDATE
-- DELETE
-- JOIN (INNER, LEFT, RIGHT)
-- GROUP BY
-- Aggregate Functions
-- Subquery
-- CONCAT, NOW()
-- Alias
-
----
-
-# 🔹 SELECT (ডেটা দেখা)
+## 🔹 INSERT INTO
 
 ```sql
-SELECT * FROM test LIMIT 0, 5;
-
-👉 SELECT * → সব column দেখাবে
-👉 FROM test → test টেবিল থেকে ডেটা আনবে
-👉 LIMIT 0,5 → প্রথম ৫টি row দেখাবে
-
-🔹 INSERT INTO
 INSERT INTO table_name (column1, column2) VALUES (value1, value2);
+```
 
-👉 কোন টেবিলে এবং কোন column এ ডেটা যাবে সেটি নির্ধারণ করে
+- কোন টেবিলে এবং কোন column এ ডেটা যাবে সেটি নির্ধারণ করে  
 
-🔹 UPDATE
+---
+
+## 🔹 UPDATE
+
+```sql
 UPDATE students SET number = number + 2;
+```
 
-👉 সব student এর number ২ করে বাড়াবে
+- সব row এর number এর সাথে ২ যোগ হবে  
 
-🔹 DELETE
+---
+
+## 🔹 DELETE
+
+```sql
 DELETE FROM students WHERE id = 5;
+```
 
-👉 id = 5 row মুছে ফেলবে
+- id = 5 row মুছে ফেলবে  
 
+```sql
 DELETE FROM students ORDER BY id DESC LIMIT 3;
+```
 
-👉 শেষের ৩টি row ডিলিট হবে
+- শেষের ৩টি row মুছে ফেলবে  
 
-🔹 WHERE IN
+---
+
+## 🔹 WHERE IN
+
+```sql
 SELECT * FROM users WHERE age IN (33, 25, 28);
+```
 
-👉 একাধিক মান একসাথে খোঁজা যায়
+- একাধিক মান একসাথে খোঁজা যায়  
 
-🔹 INNER JOIN
+---
+
+## 🔹 INNER JOIN
+
+```sql
 SELECT username, age, favorite_color 
 FROM users 
 INNER JOIN profiles 
 ON users.user_id = profiles.user_id;
+```
 
-👉 দুই টেবিলে মিল থাকা ডেটা দেখাবে
+- দুই টেবিলে মিল থাকা ডেটা দেখাবে  
 
-🔹 LEFT JOIN
+---
+
+## 🔹 LEFT JOIN
+
+```sql
 SELECT username, age, favorite_color 
 FROM users 
 LEFT JOIN profiles 
 ON users.user_id = profiles.user_id;
+```
 
-👉 users টেবিলের সব ডেটা আসবে
+- users টেবিলের সব ডেটা দেখাবে  
 
-🔹 RIGHT JOIN
+---
+
+## 🔹 RIGHT JOIN
+
+```sql
 SELECT username, age, favorite_color 
 FROM users 
 RIGHT JOIN profiles 
 ON users.user_id = profiles.user_id;
+```
 
-👉 profiles টেবিলের সব ডেটা আসবে
+- profiles টেবিলের সব ডেটা দেখাবে  
 
-🔹 GROUP BY
+---
+
+## 🔹 GROUP BY
+
+```sql
 SELECT course_name FROM applicant GROUP BY course_name;
+```
 
-👉 একই ডেটা group করবে
+- একই ডেটা group করবে  
 
-🔹 Alias
+---
+
+## 🔹 Alias
+
+```sql
 SELECT u.username AS UserName, u.age AS Age, p.favorite_color AS FavColor
 FROM users AS u 
 LEFT JOIN profiles AS p 
 ON u.user_id = p.user_id;
+```
 
-👉 users = u, profiles = p (short name)
+- users = u, profiles = p (short name)  
 
-🔹 Aggregate Functions
+---
+
+## 🔹 Aggregate Functions
+
+```sql
 SELECT MAX(age) FROM applicant;
 SELECT MIN(age) FROM applicant;
 SELECT AVG(age) FROM applicant;
 SELECT COUNT(age) FROM applicant;
 SELECT SUM(age) FROM applicant;
+```
 
-👉 MAX = বড় মান
-👉 MIN = ছোট মান
-👉 AVG = গড়
-👉 COUNT = মোট সংখ্যা
-👉 SUM = যোগফল
+- MAX → সবচেয়ে বড় মান  
+- MIN → সবচেয়ে ছোট মান  
+- AVG → গড়  
+- COUNT → মোট সংখ্যা  
+- SUM → যোগফল  
 
-🔹 NOW()
+---
+
+## 🔹 NOW()
+
+```sql
 SELECT NOW();
+```
 
-👉 বর্তমান সময় দেখাবে
+- বর্তমান date ও time দেখাবে  
 
-🔹 CONCAT
+---
+
+## 🔹 CONCAT
+
+```sql
 SELECT email, CONCAT(first_name, '--->', age) FROM applicant;
+```
 
-👉 দুইটা ডেটা একসাথে দেখাবে
+- দুইটি ডেটা একসাথে দেখাবে  
 
-🔹 Subquery
+---
+
+## 🔹 Subquery
+
+```sql
 SELECT MAX(number)
 FROM users
 WHERE number < (
   SELECT MAX(number) FROM users
 );
+```
 
-👉 ২য় সর্বোচ্চ মান বের করে
+- ২য় সর্বোচ্চ মান বের করে  
 
-🔹 Subquery + IN
+---
+
+## 🔹 Subquery + IN
+
+```sql
 SELECT *
 FROM users
 WHERE id IN (
   SELECT id FROM users WHERE number < 80
 );
+```
 
-👉 শর্ত অনুযায়ী id নিয়ে ডেটা দেখায়
+- শর্ত অনুযায়ী ডেটা দেখায়  
 
-✅ Tips
+---
 
-✔ WHERE দিয়ে filter করা যায়
-✔ JOIN দিয়ে multiple table ব্যবহার করা যায়
-✔ Alias ব্যবহার করলে query ছোট হয়
-✔ table_name.column_name লেখা ভালো অভ্যাস
+## ✅ Tips
+
+- WHERE দিয়ে data filter করা যায়  
+- JOIN দিয়ে multiple table ব্যবহার করা যায়  
+- Alias ব্যবহার করলে query ছোট হয়  
+- table_name.column_name লেখা ভালো অভ্যাস  
+
+---
+
+## ⭐ Support
+
+যদি এই নোট তোমার কাজে লাগে, তাহলে repo-তে ⭐ Star দাও 😊
+
+---
+
+## 👨‍💻 Author
+
+**Soyon Barman**  
+GitHub: https://github.com/Soyonbarman
